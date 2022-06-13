@@ -1,0 +1,14 @@
+{%extends "base.html"%}
+{%block title%}
+Manage devices
+{%endblock%}
+{%block body%}
+<div class="container mt-5">
+    <h1>Add new device</h1>
+    <form method="POST">
+            <input type="text" name="device_id" id="device_id" class="form-control" placeholder="Enter device_id"><br>
+            <input type="text" name="owner_id" id="owner_id" class="form-control" placeholder="Enter owner_id"><br>
+            <input type="submit" class="btn btn-success" value="send"><br>
+    </form>
+</div>
+{%endblock%}
