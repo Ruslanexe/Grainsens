@@ -3,3 +3,5 @@ local/ddos.py
 Procfile
 *.db
 local/
+venv
+__pycache__

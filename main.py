@@ -1,5 +1,7 @@
-from flask import Flask
-from flask import render_template, request
+import MySQLdb.cursors
+import bcrypt
+from flask import Flask, session, flash
+from flask import render_template, request, url_for, redirect
 import mysql.connector
 
 app = Flask(__name__)
@@ -28,11 +30,12 @@ def create_branch():
         cur = cnx.cursor()
         cur.execute(
             f"INSERT INTO branch(branch_id,mgr_id,send_info_date,temperature)"
-            f"VALUES({branch_id},{mgr_id},'{send_info_date}',{temperature})"
-        )
+            f"VALUES({branch_id},{mgr_id},{send_info_date},{temperature})")
         cnx.commit()
         cur.close()
-        return render_template()
+        return "POST SUCCESS"
+    elif request.method == 'GET':
+        return render_template('create_branch.html')
     return "Wrong "
 
 
@@ -50,6 +53,55 @@ def create_device():
     elif request.method == 'GET':
         return render_template('create_device.html')
     return "Fail"
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method=='GET':
+        return render_template('register.html')
+    else:
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+
+        sql_statement = f'INSERT INTO user(name,email, password) VALUES("{name}","{email}","{password}")'
+        print(sql_statement)
+        cur = cnx.cursor()
+        cur.execute(sql_statement)
+        cnx.commit()
+        cur.close()
+        return render_template('after_loggin.html')
+
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    if request.method=='POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        sql_statement2 = f'SELECT * FROM user WHERE email="{email}"'
+        cur = cnx.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute(sql_statement2)
+        user = cur.fetchone()
+        try:
+            cur.close()
+        except Exception:
+            print("Exception")
+
+        if len(user)>0:
+            if password == user[2]:
+                return render_template('after_loggin.html')
+            else:
+                return str(user[2])
+        else:
+            return 'Error password or user not match'
+    else:
+        return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template('login.html')
 
 
 app.run(debug=True)

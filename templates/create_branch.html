@@ -1,0 +1,16 @@
+{%extends "base.html"%}
+{%block title%}
+Manage devices
+{%endblock%}
+{%block body%}
+<div class="container mt-5">
+    <h1>Add new branch</h1>
+    <form method="POST">
+            <input type="text" name="branch_id" id="branch_id" class="form-control" placeholder="Enter branch_id"><br>
+            <input type="text" name="mgr_id" id="mgr_id" class="form-control" placeholder="Enter mgr_id"><br>
+            <input type="text" name="send_info_date" id="send_info_date" class="form-control" placeholder="Enter send_info_date"><br>
+            <input type="text" name="temperature" id="temperature" class="form-control" placeholder="Enter temperature"><br>
+            <input type="submit" class="btn btn-success" value="send"><br>
+    </form>
+</div>
+{%endblock%}

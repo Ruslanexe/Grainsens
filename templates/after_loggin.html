@@ -1,0 +1,16 @@
+{%extends "base.html"%}
+{%block title%}
+Home
+{%endblock%}
+{%block body%}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Welcome</h2>
+        {%if ['name']%}
+        <p>You have successfully logged in</p>
+        {%else%}
+        <p>Not login yet</p>
+        {%endif%}
+    </div>
+</div>
+{%endblock%}
